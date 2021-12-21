@@ -36,7 +36,7 @@ public class Base extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.donate, menu);
+        getMenuInflater().inflate(R.menu.menu_donate, menu);
         return true;
     }
     @Override
@@ -44,7 +44,7 @@ public class Base extends AppCompatActivity
         super.onPrepareOptionsMenu(menu);
         MenuItem report = menu.findItem(R.id.menuReport);
         MenuItem donate = menu.findItem(R.id.menuDonate);
-        if(!donations.isEmpty())
+        if(donations.isEmpty())
             report.setEnabled(false);
         else
             report.setEnabled(true);

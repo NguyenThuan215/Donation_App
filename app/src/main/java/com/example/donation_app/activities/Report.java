@@ -61,5 +61,4 @@ public class Report extends Base
         DonationAdapter adapter = new DonationAdapter(this, donations);
         listView.setAdapter(adapter);
     }
-
 }
