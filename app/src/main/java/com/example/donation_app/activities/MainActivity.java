@@ -29,6 +29,8 @@ public class MainActivity extends Base {
     private NumberPicker amountPicker;
     private EditText amountText;
     private TextView amountTotal;
+    private int totalDonated = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +70,19 @@ public class MainActivity extends Base {
         }
         if (donatedAmount > 0)
         {
-            newDonation(new Donation(donatedAmount, method));
+            app.newDonation(new Donation(donatedAmount, method));
             progressBar.setProgress(totalDonated);
             String totalDonatedStr = "$" + totalDonated;
             amountTotal.setText(totalDonatedStr);
         }
+    }
+
+    @Override
+    public void reset(MenuItem item)
+    {
+        totalDonated = 0;
+        String totalDonatedStr = "$" + totalDonated;
+        amountTotal.setText(totalDonatedStr);
     }
 }
 
