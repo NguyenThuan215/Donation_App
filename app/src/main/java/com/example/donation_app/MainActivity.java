@@ -22,11 +22,19 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup paymentMethod;
     private ProgressBar progressBar;
     private NumberPicker amountPicker;
+    private int totalDonated = 0;
 
 
     public void donateButtonPressed (View view)
     {
-        Log.v("Donate", "Donate Pressed!");
+        int amount = amountPicker.getValue();
+        int radioId = paymentMethod.getCheckedRadioButtonId();
+        String method = radioId == R.id.PayPal ? "PayPal" : "Direct";
+        totalDonated = totalDonated + amount;
+        progressBar.setProgress(totalDonated);
+        Log.v("Donate", "Donate Pressed! with amount " + amount + ", method: " + method);
+        Log.v("Donate", "Current total " + totalDonated);
+
     }
 
 
@@ -56,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         amountPicker = (NumberPicker) findViewById(R.id.amountPicker);
         amountPicker.setMinValue(0);
         amountPicker.setMaxValue(1000);
-
+        progressBar.setMax(10000);
 
     }
 
