@@ -6,12 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,18 +27,40 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup paymentMethod;
     private ProgressBar progressBar;
     private NumberPicker amountPicker;
+    private EditText amountText;
+    private TextView amountTotal;
+
     private int totalDonated = 0;
+    private boolean targetAchieved = false;
 
 
     public void donateButtonPressed (View view)
     {
-        int amount = amountPicker.getValue();
-        int radioId = paymentMethod.getCheckedRadioButtonId();
-        String method = radioId == R.id.PayPal ? "PayPal" : "Direct";
-        totalDonated = totalDonated + amount;
-        progressBar.setProgress(totalDonated);
-        Log.v("Donate", "Donate Pressed! with amount " + amount + ", method: " + method);
-        Log.v("Donate", "Current total " + totalDonated);
+        String method = paymentMethod.getCheckedRadioButtonId() == R.id.PayPal ? "PayPal" : "Direct";
+
+        int donatedAmount =  amountPicker.getValue();
+        if (donatedAmount == 0)
+        {
+            String text = amountText.getText().toString();
+            if (!text.equals(""))
+                donatedAmount = Integer.parseInt(text);
+        }
+
+        if (!targetAchieved)
+        {
+            totalDonated  = totalDonated + donatedAmount;
+            targetAchieved = totalDonated >= 10000;
+            progressBar.setProgress(totalDonated);
+            String totalDonatedStr = "$" + totalDonated;
+            amountTotal.setText(totalDonatedStr);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "Target Exceeded!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        Log.v("Donate", amountPicker.getValue() + " donated by " +  method + "\nCurrent total " + totalDonated);
 
     }
 
@@ -62,9 +89,14 @@ public class MainActivity extends AppCompatActivity {
         paymentMethod = (RadioGroup) findViewById(R.id.paymentMethod);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         amountPicker = (NumberPicker) findViewById(R.id.amountPicker);
+
+        amountText    = (EditText)     findViewById(R.id.paymentAmount);
+        amountTotal   = (TextView)     findViewById(R.id.totalSoFar);
+
         amountPicker.setMinValue(0);
         amountPicker.setMaxValue(1000);
         progressBar.setMax(10000);
+        amountTotal.setText("$0");
 
     }
 
