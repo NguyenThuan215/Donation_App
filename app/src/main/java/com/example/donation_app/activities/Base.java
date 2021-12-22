@@ -3,6 +3,7 @@ package com.example.donation_app.activities;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class Base extends AppCompatActivity {
         MenuItem reset = menu.findItem(R.id.menuReset);
         if(app.dbManager.getAll().isEmpty())
         {
-            report.setEnabled(false);
+            report.setEnabled(true);
             reset.setEnabled(false);
         }
         else {
@@ -66,7 +67,7 @@ public class Base extends AppCompatActivity {
         else {
             report.setVisible(false);
             donate.setVisible(true);
-            reset.setVisible(false);
+            reset.setVisible(true);
         }
         return true;
     }
@@ -78,5 +79,12 @@ public class Base extends AppCompatActivity {
     {
         startActivity (new Intent(this, MainActivity.class));
     }
-    public void reset(MenuItem item) {}
+
+    public void reset(MenuItem item) {
+//        app.dbManager.reset();
+//        app.totalDonated = 0;
+//        amountTotal.setText("$" + app.totalDonated);
+    }
+
+
 }
