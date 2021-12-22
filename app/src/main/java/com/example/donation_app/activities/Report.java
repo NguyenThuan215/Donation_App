@@ -39,7 +39,7 @@ class DonationAdapter extends ArrayAdapter<Donation>
         TextView amountView = (TextView) view.findViewById(R.id.row_amount);
         TextView methodView = (TextView) view.findViewById(R.id.row_method);
         amountView.setText("$" + donation.amount);
-        methodView.setText(donation.method);
+        methodView.setText(donation.paymenttype);
         return view;
     }
     @Override
@@ -58,12 +58,12 @@ public class Report extends Base
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         listView = (ListView) findViewById(R.id.reportList);
-        DonationAdapter adapter = new DonationAdapter(this, app.dbManager.getAll());
+        DonationAdapter adapter = new DonationAdapter(this, app.donations);
         listView.setAdapter(adapter);
     }
 
     public void reset(MenuItem item) {
-        app.dbManager.reset();
+        app.donations.clear();
         app.totalDonated = 0;
         donate(item);
 //        amountTotal.setText("$" + app.totalDonated);
